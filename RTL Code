@@ -1,0 +1,19 @@
+module clock_gating(input wire clk,  
+    input wire enable,  
+output wire gated_clk  
+);  
+reg latch1_out, latch2_out;  
+ always @(posedge clk or negedge enable) begin  
+        if (~enable)  
+            latch1_out <= 1'b0;  
+        else  
+            latch1_out <= 1'b1;  
+    end  
+always @(negedge clk or negedge enable) begin  
+        if (~enable)  
+            latch2_out <= 1'b0;  
+        else  
+            latch2_out <= 1'b1;  
+    end  
+assign gated_clk = latch1_out & latch2_out;  
+endmodule 
