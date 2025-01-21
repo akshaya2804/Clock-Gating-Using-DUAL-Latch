@@ -1,0 +1,24 @@
+module tb_clock_gating;  
+    reg clk;  
+    reg enable;  
+    wire gated_clk;  
+ clock_gating uut (  
+        .clk(clk),  
+        .enable(enable),  
+        .gated_clk(gated_clk)  
+    );  
+initial begin  
+        clk = 0;  
+        forever #5 clk = ~clk;  
+    end  
+    initial begin  
+        enable = 0;  
+        #10 enable = 1  
+        #50 enable = 0;    
+        #50 enable = 1;  
+        #50 $finish;  
+    end  
+    initial begin  
+        $monitor("Time = %0d, clk = %b, enable = %b, gated_clk = %b", $time, clk, enable, gated_clk);  
+    end  
+   endmodule 
